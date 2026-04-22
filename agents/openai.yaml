@@ -1,0 +1,4 @@
+interface:
+  display_name: "2050 活动推荐"
+  short_description: "根据 2050@2026 文章、个人标签和他山世界注册画像推荐可参与活动。"
+  default_prompt: "请根据我的兴趣、时间和同行目标，帮我推荐 2050@2026 可参与活动，并说明依据。"
