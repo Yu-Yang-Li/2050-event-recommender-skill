@@ -94,7 +94,9 @@ If the answer is based only on the local snapshot, say it is based on the 2026-0
 
 - `references/2050-2026-map.md`: baseline topic and activity map.
 - `references/2050-articles-2026.csv`: 77 public-account article entries supplied by the user.
+- `references/2050-ocr-priority.csv`: priority queue for screenshot/OCR, with schedule and pass-guide articles first.
 - `references/follow-and-ocr.md`: WeChat article screenshot/OCR workflow adapted from `TashanGKD/2050KnowledgeBase`.
 - `references/tashan-world-registration.md`: registration and profile-tagging notes from the public Tashan World skill.
 - `scripts/capture-wechat.mjs`: Playwright screenshot capture script from the reference knowledge base.
+- `scripts/prepare_ocr_queue.py`: builds a priority OCR queue from the article CSV.
 - `scripts/recommend_2050.py`: deterministic local ranking helper for CSV/title-based matching.

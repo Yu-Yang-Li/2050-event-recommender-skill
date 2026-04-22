@@ -1,0 +1,11 @@
+{
+  "name": "2050-event-recommender-skill-tools",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "capture:priority": "node scripts/capture-wechat.mjs --csv references/2050-ocr-priority.csv --out assets/wechat-screenshots-priority"
+  },
+  "dependencies": {
+    "playwright": "^1.57.0"
+  }
+}

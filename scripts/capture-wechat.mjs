@@ -46,6 +46,14 @@ function slugTitle(title, index) {
   return `${String(index + 1).padStart(3, '0')}-${compact || 'article'}.png`
 }
 
+function getTitle(article) {
+  return article['标题'] || article.title || `article-${article.source_order || ''}`
+}
+
+function getUrl(article) {
+  return article['链接'] || article.url || ''
+}
+
 function readArticles(filePath) {
   const text = fs.readFileSync(filePath, 'utf8').replace(/^\uFEFF/, '')
   const lines = text.split(/\r?\n/).filter(Boolean)
@@ -98,7 +106,7 @@ async function scrollThroughPage(page) {
 }
 
 async function captureArticle(page, article, index) {
-  const url = article['链接']
+  const url = getUrl(article)
   await page.goto(url, { waitUntil: 'networkidle', timeout: 60000 })
   await page.waitForTimeout(8000)
   await scrollThroughPage(page)
@@ -106,14 +114,14 @@ async function captureArticle(page, article, index) {
   await page.waitForTimeout(2000)
   await loadAllImages(page)
   await page.waitForTimeout(6000)
-  const output = path.join(outDir, slugTitle(article['标题'], index))
+  const output = path.join(outDir, slugTitle(getTitle(article), index))
   await page.screenshot({ path: output, fullPage: true, timeout: 120000 })
   return output
 }
 
 async function main() {
   fs.mkdirSync(outDir, { recursive: true })
-  const allArticles = readArticles(csvPath).filter((row) => row['链接']?.startsWith('http'))
+  const allArticles = readArticles(csvPath).filter((row) => getUrl(row).startsWith('http'))
   const articles = limit > 0 ? allArticles.slice(0, limit) : allArticles
   console.log(`Found ${articles.length} article links from ${csvPath}`)
 
@@ -130,11 +138,11 @@ async function main() {
   for (let i = 0; i < articles.length; i += 1) {
     const article = articles[i]
     try {
-      console.log(`[${i + 1}/${articles.length}] ${article['标题']}`)
+      console.log(`[${i + 1}/${articles.length}] ${getTitle(article)}`)
       const output = await captureArticle(page, article, i)
       console.log(`  saved ${output}`)
     } catch (error) {
-      console.error(`  failed ${article['链接']}: ${error.message}`)
+      console.error(`  failed ${getUrl(article)}: ${error.message}`)
     }
   }
 
